@@ -1924,6 +1924,92 @@ public class Main {
     public void testSum_Solution(){
         System.out.println(Sum_Solution(4));
     }
-    
 
+    /**
+     * 不用加减乘除做加法
+     * @param num1
+     * @param num2
+     * @return
+     */
+    public int Add(int num1,int num2) {
+        int sum,carry;
+        while (num2 != 0){
+            sum = num1 ^ num2;  //异或，得到无进位加法结果
+            carry = (num1 & num2) << 1; //与运算，左移1位表示得到进位
+
+            num1 = sum;
+            num2 = carry;
+        }
+        return num1;
+    }
+
+    @Test
+    public void testAdd(){
+        System.out.println(Add(2,4));
+    }
+
+    /**
+     * 把字符串转换成整数
+     * @param str
+     * @return
+     */
+    public int StrToInt(String str) {
+        if (str.length()  <= 0)
+            return 0;
+        boolean flag = true;
+        if (str.charAt(0) == '+')
+            str = str.substring(1);
+        else if (str.charAt(0) == '-'){
+            flag = false;
+            str = str.substring(1);
+        }
+        char[] ints = str.toCharArray();
+        int number = 0;
+        for (int i = 0; i < ints.length;++i){
+            if (ints[i]-'0' >= 0 && ints[i]-'0' <=9)
+                number = number*10 + (ints[i]-'0');
+            else
+                return 0;
+        }
+        if (flag == false)
+            number = 0 - number;
+        return number;
+    }
+    @Test
+    public void testStrToInt(){
+        System.out.println(StrToInt("-123456"));
+    }
+
+
+    /**
+     * 数组中重复的数字,hashmap实现
+     * @param numbers
+     * @param length
+     * @param duplication
+     * @return
+     */
+    public boolean duplicate(int numbers[],int length,int [] duplication) {
+        if (numbers == null || length <= 0)
+            return false;
+        HashMap<Integer,Integer> times = new HashMap<>();
+        for(int i = 0 ; i < length;++i){
+            if (!times.containsKey(numbers[i]))
+                times.put(numbers[i],1);
+            else {
+                times.put(numbers[i],times.get(numbers[i])+1);
+                duplication[0] = numbers[i];
+                return true;
+            }
+
+        }
+        return false;
+    }
+
+    @Test
+    public void testDuplicate(){
+        int[] numbers = new int[]{1,2,3,4,5,2,1};
+        int[] duplication = new int[1];
+        System.out.println(duplicate(numbers,numbers.length,duplication));
+        System.out.println(duplication[0]);
+    }
 }
